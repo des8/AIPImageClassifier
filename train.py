@@ -136,8 +136,9 @@ def general(args):
     classifier = nn.Sequential(OrderedDict([('fc1', nn.Linear(25088, 4096, True)), 
                                             ('relu1', nn.ReLU()), 
                                             ('dropout1', nn.Dropout(p=0.5)), 
-                                            ('hidden', nn.Linear(4096,512)), 
-                                            ('fc2', nn.Linear(512, 102, True)),
+                                            ('hidden', nn.Linear(4096,args.hidden_units)), 
+                                            ('dropout2', nn.Dropout(p=0.5)),
+                                            ('fc2', nn.Linear(args.hidden_units, 102, True)),
                                             ('output', nn.LogSoftmax(dim=1))]))
     
     model.classifier = classifier
@@ -170,7 +171,7 @@ def main():
     parser.add_argument('--save_dir' , type=str, default='checkpoint.pth', help='Directory to save checkpoints')
     args = parser.parse_args()
 
-    import json
+    #import json
     with open('cat_to_name.json', 'r') as f:
         cat_to_name = json.load(f)
 
